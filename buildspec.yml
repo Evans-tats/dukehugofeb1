@@ -15,7 +15,8 @@ phases:
       - tar -xzf hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
       - mv hugo /usr/bin/hugo
       - cd $CODEBUILD_SRC_DIR
-      - hugo mod get
+      - git clone https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
+
   build:
     commands:
       - echo Building site...
