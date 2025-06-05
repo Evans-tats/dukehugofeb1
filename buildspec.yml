@@ -1,23 +1,31 @@
 version: 0.2
 
-environment_variables:
-  plaintext:
-    HUGO_VERSION: "0.79.1"
-    
+env:
+  variables:
+    HUGO_VERSION: "0.123.0" 
+
 phases:
   install:
-    commands:                                                                 
+    runtime-versions:
+      python: 3.9
+    commands:
+      - echo Installing Hugo...
       - cd /tmp
-      - wget https://github.com/gohugoio/hugo/releases/download/v0.80.0/hugo_extended_0.80.0_Linux-64bit.tar.gz
-      - tar -xzf hugo_extended_0.80.0_Linux-64bit.tar.gz
+      - wget https://github.com/gohugoio/hugo/releases/download/v$HUGO_VERSION/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
+      - tar -xzf hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
       - mv hugo /usr/bin/hugo
-      - cd 
-      - rm -rf /tmp/*
+      - cd $CODEBUILD_SRC_DIR
   build:
     commands:
+      - echo Building site...
       - rm -rf public
-      - hugo 
+      - hugo
   post_build:
     commands:
-      - aws s3 sync --delete public s3://dukefeb1-chapter7
-      - echo Build completed on `date`
+      - echo Deploying to S3...
+      - aws s3 sync public/ s3://dukefeb1 --delete
+      - echo "Build and deploy complete on $(date)"
+
+artifacts:
+  files:
+    - '**/*'
