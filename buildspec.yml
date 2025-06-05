@@ -23,9 +23,7 @@ phases:
   post_build:
     commands:
       - echo Deploying to S3...
-      #- aws s3 sync public/ s3://dukefeb1-chapter7 --delete
-      - aws s3 sync public/ s3://dukefeb1-chapter7 --delete --acl public-read
-
+      - aws s3 sync public/ s3://dukefeb1-chapter7 --delete
       - echo "Build and deploy complete on $(date)"
 
 artifacts:
