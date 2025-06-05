@@ -15,6 +15,7 @@ phases:
       - tar -xzf hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
       - mv hugo /usr/bin/hugo
       - cd $CODEBUILD_SRC_DIR
+      - hugo mod get
   build:
     commands:
       - echo Building site...
